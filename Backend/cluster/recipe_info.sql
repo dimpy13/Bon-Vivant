@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS recipe_info1 (
+num int(11),
+course_cuisine varchar(200),
+course varchar(200), 
+cuisine varchar(200), 
+flavor varchar(200),
+id varchar(200),
+small_image varchar(200),
+rating int(11),
+name varchar(100),
+another_small_image varchar(200),
+provider varchar(200),
+time int(11),
+big_image varchar(200),
+ingredient_amount varchar(200),
+serving_number int(11), 
+nutrition varchar(200),
+hie_label int(11) ,
+dbscan_label int(11)
+);

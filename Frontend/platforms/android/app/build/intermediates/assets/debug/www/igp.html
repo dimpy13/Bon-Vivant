@@ -1,0 +1,359 @@
+<html>
+<head>
+        <title>Flavornet</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/simplex_theme.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/homepage.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/typeahead.css">
+        <script src="/static/js/d3.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="/static/js/typeahead.js"></script>
+        <script src="/static/js/ingrs_fcis_typeahead.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+        
+
+<style>
+
+/*Homepage CSS*/ 
+body {
+    background-image:none;
+    background-color: "white";
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+/*relevant to formatting of Force Layout: D3.js*/ 
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  fill: solid;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.node text {
+  font: 15px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<!--extending the base template--> 
+
+
+
+
+    </head>
+<body>
+        <div class="entire_wrapper">
+        	<nav class="navbar navbar-default">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			      <a class="navbar-brand" style="font-size:20px" href="/">flavornet</a>
+			    </div>
+
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      <ul class="nav navbar-nav">
+<!-- 			        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+			        <li><a href="#">Link</a></li> -->
+			        <li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">References <span class="caret"></span></a>
+			          <ul class="dropdown-menu" role="menu">
+			            <li><a href="/ingredients">All Ingredients</a></li>
+			            <li><a href="/flavorcompounds">All Flavor Compounds</a></li>
+			            <!-- li><a href="#">Something else here</a></li>
+			            <li class="divider"></li>
+			            <li><a href="#">Separated link</a></li>
+			            <li class="divider"></li>
+			            <li><a href="#">One more separated link</a></li> -->
+			          </ul>
+			        </li>
+			      </ul>
+			      <!-- <form class="navbar-form navbar-left" role="search">
+			        <div class="form-group">
+			          <input type="text" class="form-control" placeholder="Search">
+			        </div>
+			        <button type="submit" class="btn btn-default">Submit</button>
+			      </form> -->
+			      <ul class="nav navbar-nav navbar-right">
+			        <li><a href="#">About</a></li>
+			      </ul>
+			    </div>
+			  </div>
+			</nav>
+              
+<!--             <div class = "container">
+                <div class="row">
+                    <div id="user_sidebar">
+                        <div id="left_hand_col" class="col-xs-6" style="font-size:15px">
+                            <p> Search ingredient pairs:</p>
+                            <div class="row">
+	                            <form class="form-inline" action="/ingredient_pairs">
+                            	<div class="col-xs-4">
+	                                <div id ="ingredient_pairs_typeahead">
+	                                    <div class="form-group">
+	                                        <input class="typeahead form-control" name="ingr_zero_input" type="text" placeholder="i.e. lemon">
+	                                    </div>
+	                                </div>
+	                            </div>    
+	                        	<div class="col-xs-8">
+	                                <button type="submit" class="btn btn-default">Submit</button>
+	                            </div>
+								</form>
+	                        </div>    
+                            <br>
+                        </div>
+
+                        <div id="right_hand_col" class="col-md-6" style="font-size:15px">
+                            <p>Search ingredients within a cuisine:</p>
+							<div class="row">
+								<form class="form-inline" action="/ingredient_pairs/cuisines">
+	                            	
+								<div class="col-md-4">
+	                            	
+		                                <div id="ingredient_pairs_typeahead">
+		                                    <div class="form-group">
+
+		                                        <input class="typeahead form-control" type="text" name="ingr_zero_input" placeholder="i.e. lemon">
+		                                    </div>	
+		                                </div>
+		                        </div>
+		                                
+		                        <div class="col-md-4">
+			                        <div id="cuisines_typeahead">
+			                            <div class="form-group">
+
+			                                    <input class="typeahead form-control" type="text" name="cuisine_input" placeholder="i.e. Italian">
+			                            </div>  		
+			                        </div>
+			                    </div>
+		                        <div class="col-md-4">        
+		                                <button type="submit" class="btn btn-default">Submit</button>
+		                        </div>
+								</form>
+		                    </div>   
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="container">
+		            <div class="row">
+		                <form class="form-inline row" action="/search">
+		                    <div class="form-group col-sm-4">
+		                        <label class="control-label" for="focusedInput">Ingredient: </label>
+		                        <input class="form-control" id="focusedInput" type="text" name="ingredient-search" placeholder="ex. lemon">
+		                    </div>
+		                    <div class="form-group col-sm-4">
+		                        <label class="control-label" for="focusedInput">Cuisine: </label>
+		                        <input class="form-control" id="focusedInput" type="text" name="cuisine-search" placeholder="ex. Italian">
+		                    </div>
+		                    <div class="form-group col-sm-4">
+		                        <button type="button|submit|reset" class="btn btn-default">Submit</button>
+		                    </div>
+		                </form>
+		                <div class="row"></div>
+		            </div>
+		        </div>
+
+                 <div class="col-md-6">
+                 <br>
+                 <br>
+                 <br>
+                        
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="text_results">
+      <h3>  
+        BILBERRY  
+      </h3>
+      <br><br>
+        
+        
+        
+          <li>cranberry shares: 68 compounds </li>
+
+        
+        
+          <li>green_tea shares: 57 compounds </li>
+
+        
+        
+          <li>pouching_tea shares: 54 compounds </li>
+
+        
+        
+          <li>bog_blueberry shares: 52 compounds </li>
+
+        
+        
+          <li>black_raspberry shares: 52 compounds </li>
+
+        
+        
+          <li>chokeberry shares: 52 compounds </li>
+
+        
+        
+          <li>crowberry shares: 52 compounds </li>
+
+        
+        
+          <li>parmesan_cheese shares: 44 compounds </li>
+
+        
+        
+          <li>white_wine shares: 43 compounds </li>
+
+        
+        
+          <li>roasted_chicken shares: 37 compounds </li>
+
+        
+
+    </div>    
+  </div>
+
+  <div class="col-md-4">
+    <div id="svg_test">
+    <svg width="1000" height="1000"><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="500.9812256971075" y2="445.878880954036"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="378.32338432249355" y2="490.2262010954868"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="591.0145687899075" y2="581.8316311062018"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="559.9035901914543" y2="643.9787566565251"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="588.3468908725105" y2="529.6260387924029"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="568.1409662555627" y2="489.02658201301347"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="417.1689268919817" y2="456.9330165709102"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="537.9400298309733" y2="461.49250269201366"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="354.66746095813255" y2="555.6962876585648"></line><line class="link" x1="472.2658385950067" y1="564.9462703693988" x2="459.9423046247303" y2="443.43123495802"></line><g class="node" transform="translate(500.9812256971075,445.878880954036)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">cranberry</text></g><g class="node" transform="translate(378.32338432249355,490.2262010954868)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">green_tea</text></g><g class="node" transform="translate(591.0145687899075,581.8316311062018)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">pouching_tea</text></g><g class="node" transform="translate(559.9035901914543,643.9787566565251)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">bog_blueberry</text></g><g class="node" transform="translate(588.3468908725105,529.6260387924029)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">black_raspberry</text></g><g class="node" transform="translate(568.1409662555627,489.02658201301347)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">chokeberry</text></g><g class="node" transform="translate(417.1689268919817,456.9330165709102)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">crowberry</text></g><g class="node" transform="translate(537.9400298309733,461.49250269201366)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">parmesan_cheese</text></g><g class="node" transform="translate(354.66746095813255,555.6962876585648)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">white_wine</text></g><g class="node" transform="translate(459.9423046247303,443.43123495802)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">roasted_chicken</text></g><g class="node" transform="translate(472.2658385950067,564.9462703693988)"><circle r="4.5" style="fill: rgb(31, 119, 180);"></circle><text dy=".35em">bilberry</text></g></svg></div>
+  </div>
+</div>
+
+<!--Beginning of Collapsible Force Layou: D3.js--> 
+
+<script>
+
+  var width = 1000,
+      height = 1000,
+      root;
+
+  var color = d3.scale.category20()
+
+  var force = d3.layout.force()
+      .linkDistance(120)
+      .charge(-120)
+      .gravity(.05)
+      .size([width, height])
+      .on("tick", tick);
+
+  var svg = d3.select("#svg_test").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+      console.log(svg) 
+
+  var link = svg.selectAll(".link"),
+      node = svg.selectAll(".node");
+
+  d3.json("/ingredient_pairs.json?ingredient=bilberry", function(error, json) {
+    root = json;
+    update();
+  });
+
+  function update() {
+    var nodes = flatten(root),
+        links = d3.layout.tree().links(nodes);
+
+    // Restart the force layout.
+    force
+        .nodes(nodes)
+        .links(links)
+        .start();
+
+    // Update links.
+    link = link.data(links, function(d) { return d.target.id; });
+
+    link.exit().remove();
+
+    link.enter().insert("line", ".node")
+        .attr("class", "link");
+
+    // Update nodes.
+    node = node.data(nodes, function(d){ return d.id; });
+
+    node.exit().remove();
+
+    var nodeEnter = node.enter().append("g")
+        .attr("class", "node")
+        .on("click", click)
+        .call(force.drag);
+
+    nodeEnter.append("circle")
+        .attr("r", function(d){ return Math.sqrt(d.size) / 10 || 4.5; });
+
+    nodeEnter.append("text")
+        .attr("dy", ".35em")
+        .text(function(d){ return d.name; });
+
+    node.select("circle")
+        .style("fill", color);
+  }
+
+  function tick() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  }
+
+  function color(d) {
+    return d._children ? "#3182bd" // collapsed package
+        : d.children ? "#c6dbef" // expanded package
+        : "#fd8d3c"; // leaf node
+  }
+
+  // Toggle children on click.
+  function click(d) {
+    if (d3.event.defaultPrevented) return; // ignore drag
+    if (d.children) {
+      d._children = d.children;
+      d.children = null;
+    } else {
+      d.children = d._children;
+      d._children = null;
+    }
+    update();
+  }
+
+  // Returns a list of all nodes under the root.
+  function flatten(root) {
+    var nodes = [], i = 0;
+
+    function recurse(node) {
+      if (node.children) node.children.forEach(recurse);
+      if (!node.id) node.id = ++i;
+      nodes.push(node);
+    }
+
+    recurse(root);
+    return nodes;
+  }
+
+  </script>
+
+
+                </div>
+            </div>
+
+        
+    
+</body>
+</html>

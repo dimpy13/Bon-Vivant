@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="_so/js?//stackoverflow.com/questions/17541614/use-thumbnail-image-instead-of-radio-button" id="so"></script>
+<meta charset=utf-8 />
+<title></title>
+
+<style>
+
+.is-vishidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.pattern {
+  padding: 1em; 
+  line-height: 1;
+}
+.f {
+   position: relative; 
+}
+
+input {
+  display: block;
+  border: 1px solid #000;
+}
+
+input[type=search] {
+    width: 100%;
+    padding: 1em;
+    padding-right: 7em;
+    position: relative;
+   top: 0;
+}
+
+input[type=submit] {
+  position: absolute;
+  right: 0.75em;
+  top: 0.5em;
+  bottom: 0.5em;
+  z-index: 1;
+  width: 6em;
+  padding: 0;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div id="pattern" class="pattern">
+  <form action="#" method="post" class="f">
+      <label class="is-vishidden">Search the site</label>     
+    <input type="search" placeholder="Search the site" />
+      <input type="submit" class="btn search-submit" value="Search">
+  </form>
+</div>
+
+</body>
+</html>

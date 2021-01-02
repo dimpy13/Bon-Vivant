@@ -1,0 +1,107 @@
+<html>
+<head>
+
+<link rel='stylesheet' id='promobile-themecss-frv4-css'  href='wp-content/themes/promobile/css/framework-v4f9b8.css?ver=4.0' type='text/css' media='all' />
+<script type='text/javascript' src='wp-includes/js/jquery/jqueryb8ff.js?ver=1.12.4'></script>
+<script type='text/javascript' src='wp-content/themes/promobile/js/framework-plugins-v4f9b8.js?ver=4.0'></script>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/><meta name="apple-mobile-web-app-capable" content="yes"/>
+  <style type="text/css">
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+div.radio-holder {
+  padding: 10px;
+}
+
+input[type="radio"] {
+ display:none;
+}
+input[type="radio"]:checked+label {
+  border-bottom: 2px solid #222222;
+  padding-bottom: 0px;
+}
+
+
+  </style>
+  <script type="text/javascript">
+	        jQuery( document ).ready(function() {
+
+	        	jQuery(".staff-item").imagesLoaded( function() {
+	        		jQuery(".randomClass1817").owlCarousel({
+			            autoplay:true,
+			            autoplayTimeout:5000,
+			            autoplayHoverPause:true,
+			            
+			            lazyLoad:true,
+			            loop:true,
+			            margin:10,
+			            nav:false,
+			            dots:false,
+			            responsive:{
+		                    0:{
+		                        items:1
+		                    },
+		                    600:{
+		                        items:2
+		                    },
+		                    1000:{
+		                        items:3
+		                    }
+		                }
+			        });
+	        	});
+
+		        jQuery(".next-staff-slider").click(function() {jQuery(".randomClass1817").trigger("next.owl.carousel");});
+           		jQuery(".prev-staff-slider").click(function() {jQuery(".randomClass1817").trigger("prev.owl.carousel");});
+
+	        })
+			
+	        </script>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<div class="staff-slider">
+
+	    <div class="randomClass1817" data-snap-ignore="true">
+                <div class="staff-item">	
+					<input id="fb3" type="radio" name="fb" value="med" />
+					<label>
+					<img src="png/chicken.png" alt="img"/>
+					</label>
+					<h5>Chicken</h5>
+				</div>	
+								
+				<div class="staff-item">	
+					<input id="fb3" type="radio" name="fb" value="med" />
+					<label>
+					<img src="png/135713.png" alt="img"/>
+					</label>
+					<h5>Wheat</h5>
+				</div>	
+	
+				<div class="staff-item">	
+					<input id="fb3" type="radio" name="fb" value="med" />
+					<label><img src="png/135713.png" alt="img"/>
+					</label>
+					<h5>Wheat</h5>
+				</div>	
+	</div>
+</div>	
+
+<script>
+$(document).ready(function(){
+  $("label").click(function(e){
+    e.preventDefault();
+    $check = $(this).prev();
+    if($check.prop('checked'))
+      $check.prop( "checked", false );
+    else 
+      $check.prop( "checked", true );
+      
+    console.log($check.prop("checked"));
+  });
+});
+</script>
+</body>
+</html>
